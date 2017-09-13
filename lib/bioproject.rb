@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'json'
-# require 'json/ld'
-# require 'rdf/turtle'
+require 'json/ld'
+require 'rdf/turtle'
 
 class PunkAPI
   class << self
@@ -15,22 +15,26 @@ class PunkAPI
       @id = id
       @url = "http://#{PunkAPI.endpoint_url}/bioproject/#{@id}"
       @data = JSON.load(open(@url).read)
-      @graph = jsonld_core
+      @graph = jsonld
     end
 
-    def to_json
+    def json
       @data
     end
 
-    def to_json_ld
-      jsonld_core
+    def turtle
+      turtle_graph.dump(:ttl, prefixes: jsonld_context)
+    end
+
+    def turtle_graph
+      RDF::Graph.new << JSON::LD::API.toRdf(jsonld)
     end
 
     def jsonld_entry_type
       "biocow:BioProject"
     end
 
-    def jsonld_core
+    def jsonld
       pm          = predicate_mappings
       submission  = bioproject_submission
       description = bioproject_project_description
@@ -222,5 +226,12 @@ if __FILE__ == $0
   bp = PunkAPI::BioProject.new(id)
 
   #puts JSON.pretty_generate(bp.to_json)
-  puts JSON.pretty_generate(bp.to_json_ld)
+  case ARGV.first
+  when "turtle"
+    puts bp.turtle
+  when "json"
+    puts JSON.pretty_generate(bp.json)
+  when "jsonld"
+    puts JSON.pretty_generate(bp.jsonld)
+  end
 end
