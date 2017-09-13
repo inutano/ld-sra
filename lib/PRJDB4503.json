@@ -1,0 +1,59 @@
+{
+  "@context": {
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "pav": "http://purl.org/pav/",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "sio": "http://semanticscience.org/resource/"
+  },
+  "@id": "http://identifiers.org/bioproject/PRJDB4503",
+  "@type": "biocow:BioProject",
+  "rdfs:label": "lake water metagenome",
+  "dcterms:identifier": "PRJDB4503",
+  "dcterms:dateSubmitted": "2016-01-13",
+  "dcterms:modified": null,
+  "biocow:status": "public",
+  "dcterms:contributor": {
+    "foaf:name": "Center for Ecological Research, Kyoto University",
+    "sio:hasRole": "owner",
+    "rdfs:type": "center"
+  },
+  "foaf:name": "lake water metagenome",
+  "dcterms:available": "2016-01-15T17:43:16Z",
+  "biocow:relevantTo": {
+    "biocow:hasPropertyType": {
+      "rdfs:label": "Environmental"
+    },
+    "biocow:hasPropertyValue": {
+      "rdfs:label": "yes"
+    }
+  },
+  "dcterms:title": "Vertical and seasonal preferences of freshwater bacterioplankton tribes in a deep mesotrophic lake with fully oxygenated hypolimnion (Lake Biwa, Japan)",
+  "dcterms:description": "A high throughput sequencing targeting V4 regions of 16S rRNA gene sequences was performed to investigate prokaryotic community composition in a deep holomictic lake with fully oxygenated hypolimnion (Lake Biwa, Japan). Sampling at a pelagic site over 15 months (March 2010 - June 2011) across the water column revealed spatio-temporal preferences of individual phylogenetic groups.",
+  "biocow:hostedBy": "DDBJ",
+  "biocow:has_archive_id": "308982",
+  "biocow:has_archive_accession": "PRJDB4503",
+  "biocow:hasMethod": {
+    "rdfs:label": "eSequencing"
+  },
+  "biocow:hasData": {
+    "rdfs:label": "Targeted Locus (Loci)"
+  },
+  "biocow:hasObjective": [
+    "eSequence",
+    "eAnalysis"
+  ],
+  "sio:hasTarget": {
+    "biocow:hasMaterial": "ePartialGenome",
+    "": "eTargetedLocusLoci",
+    "biocow:hasOrganism": {
+      "@type": "ddbj-tax:Taxon",
+      "@id": "http://identifiers.org/taxonomy/1647806",
+      "dcterms:identifier": "1647806",
+      "biocow:supergroup": "eOther",
+      "biocow:species": "1647806",
+      "ddbj-tax:scientificName": "lake water metagenome",
+      "rdfs:label": "lake water metagenome"
+    }
+  }
+}
