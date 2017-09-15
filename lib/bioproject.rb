@@ -23,7 +23,7 @@ class PunkAPI
     end
 
     def turtle
-      turtle_graph.dump(:ttl, prefixes: jsonld_context)
+      turtle_graph.dump(:ttl, prefixes: turtle_context)
     end
 
     def turtle_graph
@@ -34,111 +34,147 @@ class PunkAPI
       "biocow:BioProject"
     end
 
+    def context
+      turtle_context.merge(jsonld_context)
+    end
+
+    def turtle_context
+      {
+        # "obo" => "http://purl.obolibrary.org/obo/",
+        # "rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        # "pav" => "http://purl.org/pav/",
+        "biocow" => "http://bio.cow/",
+        "dcterms" => "http://purl.org/dc/terms/",
+        "ddbj-tax" => "http://ddbj.nig.ac.jp/ontologies/taxonomy/",
+        "foaf" => "http://xmlns.com/foaf/0.1/",
+        "rdfs" => "http://www.w3.org/2000/01/rdf-schema#",
+        "schema" => "http://schema.org/",
+        "sio" => "http://semanticscience.org/resource/",
+        "xsd" => "http://www.w3.org/2001/XMLSchema#",
+      }
+    end
+
+    def jsonld_context
+      {
+        "URI" => "@id",
+        "entry_type" => "@type",
+        "label" => "rdfs:label",
+        # Project/Submission
+        "Submission" => "@nest",
+        "date_submitted" => {
+          "@id" => "dcterms:dateSubmitted",
+          "@type" => "xsd:dateTime",
+        },
+        "date_last_update" => {
+          "@id" => "dcterms:modified",
+          "@type" => "xsd:dateTime",
+        },
+        "access" => "biocow:access",
+        "organization" => "dcterms:contributor",
+        "organization_name" => "foaf:name",
+        "organization_role" => "sio:SIO_000228", # has role
+        "organization_type" => "biocow:organization_type",
+        # Project/Project/Description
+        "Project" => "@nest",
+        "ProjectDescription" => "@nest",
+        "ProjectID" => "@nest",
+        "ProjectType" => "@nest",
+        "name" => "rdfs:label",
+        "relevance" => "biocow:relevance",
+        "propertyType" => "schema:propertyID",
+        "propertyValue" => "schema:property",
+        "release_date" => {
+          "@id" => "dcterms:available",
+          "@type" => "xsd:dateTime",
+        },
+        "title" => "dcterms:title",
+        "description" => "dcterms:description",
+        # Project/Project/ID
+        "archive" => "biocow:archive",
+        "archive_id" => "biocow:archive_id",
+        "archive_accession_id" => "dcterms:identifier",
+        # Project/Project/Type
+        "method_type" => "biocow:method_type",
+        "data_type" => "biocow:data_type",
+        "objectives" => "biocow:objectives",
+        # Project/Project/Type/Target
+        "target" => "sio:SIO_000291", # has target
+        "material" => "biocow:material",
+        # Project/Project/Type/Target/Organism
+        "organism" => {
+          "@id" => "biocow:organism",
+          "@type" => "ddbj-tax:Taxon",
+        },
+        "taxid" => "dcterms:identifier",
+        "supergroup" => "biocow:supergroup",
+        "species" => "biocow:species",
+        "organism_name" => "ddbj-tax:scientificName",
+      }
+    end
+
     def jsonld
-      pm          = predicate_mappings
       submission  = bioproject_submission
       description = bioproject_project_description
       id          = bioproject_project_id
       type        = bioproject_project_type
 
       {
-        "@context" => jsonld_context,
-        "@id" => "http://identifiers.org/bioproject/" + @id,
-        "@type" => jsonld_entry_type,
-
-        # General metadata
-        "rdfs:label" => description[:name],
-        "dcterms:identifier" => @id,
+        "@context" => context,
+        "URI" => "http://identifiers.org/bioproject/" + @id,
+        "entry" => jsonld_entry_type,
 
         # Project/Submission
-        pm[:date_submitted] => submission[:date_submitted],
-        pm[:date_last_updated] => submission[:date_last_updated],
-        pm[:data_access] => submission[:data_access],
-        pm[:organization] => {
-          pm[:organization_name] => submission[:organization_name],
-          pm[:organization_role] => submission[:organization_role],
-          pm[:organization_type] => submission[:organization_type],
-        },
-
-        # Project/Project/Description
-        pm[:name] => description[:name],
-        pm[:release_date] => description[:release_date],
-        pm[:relevance] => {
-          pm[:hasPropertyType] => {
-            "rdfs:label" => description[:relevance].keys.first,
-          },
-          pm[:hasPropertyValue] => {
-            "rdfs:label" => description[:relevance].values.first,
+        "Submission" => {
+          "date_submitted" => submission[:date_submitted],
+          "date_last_update" => submission[:date_last_update],
+          "access" => submission[:access],
+          "organization" => {
+            "organization_name" => submission[:organization_name],
+            "organization_role" => submission[:organization_role],
+            "organization_type" => submission[:organization_type],
           },
         },
-        pm[:title] => description[:title],
-        pm[:description] => description[:description],
+        "Project" => {
+          "ProjectDescription" => {
+            "name" => description[:name],
+            "release_date" => description[:release_date],
+            "relevance" => {
+              "propertyType" => {
+                "label" => description[:relevance].keys.first,
+              },
+              "propertyValue" => {
+                "label" => description[:relevance].values.first,
+              },
+            },
+            "title" => description[:title],
+            "description" => description[:description],
+          },
+          "ProjectID" => {
+            "archive" => id[:archive],
+            "archive_id" => id[:archive_id],
+            "archive_accession_id" => id[:archive_accession_id],
+          },
+          "ProjectType" => {
+            "data_type" => type[:data_type],
+            "method_type" => type[:method_type],
 
-        # Project/Project/ID
-        pm[:archive] => id[:archive],
-        pm[:archive_id] => id[:archive_id],
-        pm[:archive_accession_id] => id[:archive_accession_id],
+            "objectives" => type[:objectives], #.map{|obj| { "label" => obj } }, # Array of hashes which only has label
+            "target" => {
+              "material" => type[:target_material],
+              "sample_scope" => type[:target_sample_scope],
+              "capture" => type[:target_capture],
+              "organism" => {
+                "label" => type[:target_organism_name],
+                "seeAlso" => "http://identifiers.org/taxonomy/" + type[:target_organism_taxid],
 
-        # Project/Project/Type
-        pm[:method] => {
-          "rdfs:label" => type[:method_type],
-        },
-        pm[:data] => {
-          "rdfs:label" => type[:data_type],
-        },
-        pm[:objectives] => type[:objectives].map{|obj| { "rdfs:label" => obj } }, # Array of hashes which only has label
-        pm[:target] => {
-          pm[:material] => type[:target_material],
-          pm[:sample_scope] => type[:target_sample_scope],
-          pm[:capture] => type[:target_capture],
-          pm[:organism] => {
-            "@type" => "ddbj-tax:Taxon",
-            "@id" => "http://identifiers.org/taxonomy/" + type[:target_organism_taxid],
-            "dcterms:identifier" => type[:target_organism_taxid],
-            pm[:supergroup] => type[:target_organism_supergroup],
-            pm[:species] => type[:target_organism_species],
-            pm[:organism_name] => type[:target_organism_name],
-            "rdfs:label" => type[:target_organism_name],
+                "taxid" => type[:target_organism_taxid],
+                "supergroup" => type[:target_organism_supergroup],
+                "species" => type[:target_organism_species],
+                "organism_name" => type[:target_organism_name],
+              },
+            },
           },
         },
-        pm[:objectives] => type[:objectives],
-      }
-    end
-
-    def predicate_mappings
-      {
-        # Project/Submission
-        :date_submitted => "dcterms:dateSubmitted",
-        :date_last_updated => "dcterms:modified",
-        :data_access => "biocow:status",
-        :organization => "dcterms:contributor",
-        :organization_name => "foaf:name",
-        :organization_role => "sio:hasRole",
-        :organization_type => "rdfs:type",
-        # Project/Project/Description
-        :name => "foaf:name",
-        :relevance => "biocow:relevantTo",
-        :hasPropertyType => "biocow:hasPropertyType",
-        :hasPropertyValue => "biocow:hasPropertyValue",
-        :release_date => "dcterms:available",
-        :title => "dcterms:title",
-        :description => "dcterms:description",
-        # Project/Project/ID
-        :archive => "biocow:hostedBy",
-        :archive_id => "biocow:has_archive_id",                  # may require to create our own term
-        :archive_accession_id => "biocow:has_archive_accession", # may require to create our own term
-        # Project/Project/Type
-        :method => "biocow:hasMethod",
-        :data => "biocow:hasData",
-        :objectives => "biocow:hasObjective",
-        # Project/Project/Type/Target
-        :target => "sio:hasTarget",
-        :material => "biocow:hasMaterial",
-        # Project/Project/Type/Target/Organism
-        :organism => "biocow:hasOrganism",
-        :supergroup => "biocow:supergroup",
-        :species => "biocow:species",
-        :organism_name => "ddbj-tax:scientificName",
       }
     end
 
@@ -146,8 +182,8 @@ class PunkAPI
       submission = @data["Package"]["Project"]["Submission"]
       {
         :date_submitted => submission["@submitted"],
-        :date_last_updated => submission["@last_updated"],
-        :data_access => submission["Description"]["Access"],
+        :date_last_update => submission["@last_update"],
+        :access => submission["Description"]["Access"],
         :organization_name => submission["Description"]["Organization"]["Name"],
         :organization_role => submission["Description"]["Organization"]["@role"],
         :organization_type => submission["Description"]["Organization"]["@type"],
@@ -200,19 +236,6 @@ class PunkAPI
         :target_organism_species => project_target["Organism"]["@species"],
         :target_organism_name => project_target["Organism"]["OrganismName"],
         :objectives => project_objective["Data"].map{|n| n["@data_type"] },    # Array of data type
-      }
-    end
-
-    def jsonld_context
-      {
-        "rdfs" => "http://www.w3.org/2000/01/rdf-schema#",
-        "dcterms" => "http://purl.org/dc/terms/",
-        "pav" => "http://purl.org/pav/",
-        "foaf" => "http://xmlns.com/foaf/0.1/",
-        "sio" => "http://semanticscience.org/resource/",
-        # "obo" => "http://purl.obolibrary.org/obo/",
-        # "rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-        # "xsd" => "http://www.w3.org/2001/XMLSchema#",
       }
     end
   end

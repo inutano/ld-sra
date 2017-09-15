@@ -1,59 +1,113 @@
 {
   "@context": {
-    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "biocow": "http://bio.cow/",
     "dcterms": "http://purl.org/dc/terms/",
-    "pav": "http://purl.org/pav/",
+    "ddbj-tax": "http://ddbj.nig.ac.jp/ontologies/taxonomy/",
     "foaf": "http://xmlns.com/foaf/0.1/",
-    "sio": "http://semanticscience.org/resource/"
-  },
-  "@id": "http://identifiers.org/bioproject/PRJDB4503",
-  "@type": "biocow:BioProject",
-  "rdfs:label": "lake water metagenome",
-  "dcterms:identifier": "PRJDB4503",
-  "dcterms:dateSubmitted": "2016-01-13",
-  "dcterms:modified": null,
-  "biocow:status": "public",
-  "dcterms:contributor": {
-    "foaf:name": "Center for Ecological Research, Kyoto University",
-    "sio:hasRole": "owner",
-    "rdfs:type": "center"
-  },
-  "foaf:name": "lake water metagenome",
-  "dcterms:available": "2016-01-15T17:43:16Z",
-  "biocow:relevantTo": {
-    "biocow:hasPropertyType": {
-      "rdfs:label": "Environmental"
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "schema": "http://schema.org/",
+    "sio": "http://semanticscience.org/resource/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "URI": "@id",
+    "entry_type": "@type",
+    "label": "rdfs:label",
+    "Submission": "@nest",
+    "date_submitted": {
+      "@id": "dcterms:dateSubmitted",
+      "@type": "xsd:dateTime"
     },
-    "biocow:hasPropertyValue": {
-      "rdfs:label": "yes"
+    "date_last_update": {
+      "@id": "dcterms:modified",
+      "@type": "xsd:dateTime"
+    },
+    "access": "biocow:access",
+    "organization": "dcterms:contributor",
+    "organization_name": "foaf:name",
+    "organization_role": "sio:SIO_000228",
+    "organization_type": "biocow:organization_type",
+    "Project": "@nest",
+    "ProjectDescription": "@nest",
+    "ProjectID": "@nest",
+    "ProjectType": "@nest",
+    "name": "rdfs:label",
+    "relevance": "biocow:relevance",
+    "propertyType": "schema:propertyID",
+    "propertyValue": "schema:property",
+    "release_date": {
+      "@id": "dcterms:available",
+      "@type": "xsd:dateTime"
+    },
+    "title": "dcterms:title",
+    "description": "dcterms:description",
+    "archive": "biocow:archive",
+    "archive_id": "biocow:archive_id",
+    "archive_accession_id": "dcterms:identifier",
+    "method_type": "biocow:method_type",
+    "data_type": "biocow:data_type",
+    "objectives": "biocow:objectives",
+    "target": "sio:SIO_000291",
+    "material": "biocow:material",
+    "organism": {
+      "@id": "biocow:organism",
+      "@type": "ddbj-tax:Taxon"
+    },
+    "taxid": "dcterms:identifier",
+    "supergroup": "biocow:supergroup",
+    "species": "biocow:species",
+    "organism_name": "ddbj-tax:scientificName"
+  },
+  "URI": "http://identifiers.org/bioproject/PRJDB4503",
+  "entry": "biocow:BioProject",
+  "Submission": {
+    "date_submitted": "2016-01-13",
+    "date_last_update": "2016-01-16",
+    "access": "public",
+    "organization": {
+      "organization_name": "Center for Ecological Research, Kyoto University",
+      "organization_role": "owner",
+      "organization_type": "center"
     }
   },
-  "dcterms:title": "Vertical and seasonal preferences of freshwater bacterioplankton tribes in a deep mesotrophic lake with fully oxygenated hypolimnion (Lake Biwa, Japan)",
-  "dcterms:description": "A high throughput sequencing targeting V4 regions of 16S rRNA gene sequences was performed to investigate prokaryotic community composition in a deep holomictic lake with fully oxygenated hypolimnion (Lake Biwa, Japan). Sampling at a pelagic site over 15 months (March 2010 - June 2011) across the water column revealed spatio-temporal preferences of individual phylogenetic groups.",
-  "biocow:hostedBy": "DDBJ",
-  "biocow:has_archive_id": "308982",
-  "biocow:has_archive_accession": "PRJDB4503",
-  "biocow:hasMethod": {
-    "rdfs:label": "eSequencing"
-  },
-  "biocow:hasData": {
-    "rdfs:label": "Targeted Locus (Loci)"
-  },
-  "biocow:hasObjective": [
-    "eSequence",
-    "eAnalysis"
-  ],
-  "sio:hasTarget": {
-    "biocow:hasMaterial": "ePartialGenome",
-    "": "eTargetedLocusLoci",
-    "biocow:hasOrganism": {
-      "@type": "ddbj-tax:Taxon",
-      "@id": "http://identifiers.org/taxonomy/1647806",
-      "dcterms:identifier": "1647806",
-      "biocow:supergroup": "eOther",
-      "biocow:species": "1647806",
-      "ddbj-tax:scientificName": "lake water metagenome",
-      "rdfs:label": "lake water metagenome"
+  "Project": {
+    "ProjectDescription": {
+      "name": "lake water metagenome",
+      "release_date": "2016-01-15T17:43:16Z",
+      "relevance": {
+        "propertyType": {
+          "label": "Environmental"
+        },
+        "propertyValue": {
+          "label": "yes"
+        }
+      },
+      "title": "Vertical and seasonal preferences of freshwater bacterioplankton tribes in a deep mesotrophic lake with fully oxygenated hypolimnion (Lake Biwa, Japan)",
+      "description": "A high throughput sequencing targeting V4 regions of 16S rRNA gene sequences was performed to investigate prokaryotic community composition in a deep holomictic lake with fully oxygenated hypolimnion (Lake Biwa, Japan). Sampling at a pelagic site over 15 months (March 2010 - June 2011) across the water column revealed spatio-temporal preferences of individual phylogenetic groups."
+    },
+    "ProjectID": {
+      "archive": "DDBJ",
+      "archive_id": "308982",
+      "archive_accession_id": "PRJDB4503"
+    },
+    "ProjectType": {
+      "data_type": "Targeted Locus (Loci)",
+      "method_type": "eSequencing",
+      "objectives": [
+        "eSequence",
+        "eAnalysis"
+      ],
+      "target": {
+        "material": "ePartialGenome",
+        "sample_scope": "eEnvironment",
+        "capture": "eTargetedLocusLoci",
+        "organism": {
+          "label": "lake water metagenome",
+          "seeAlso": "http://identifiers.org/taxonomy/1647806",
+          "taxid": "1647806",
+          "supergroup": "eOther",
+          "species": "1647806",
+          "organism_name": "lake water metagenome"
+        }
+      }
     }
   }
 }
