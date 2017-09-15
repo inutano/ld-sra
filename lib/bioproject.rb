@@ -42,11 +42,12 @@ class PunkAPI
       {
         # "obo" => "http://purl.obolibrary.org/obo/",
         # "rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-        # "pav" => "http://purl.org/pav/",
+        "bao" => "http://www.bioassayontology.org/bao#",
         "biocow" => "http://bio.cow/",
         "dcterms" => "http://purl.org/dc/terms/",
         "ddbj-tax" => "http://ddbj.nig.ac.jp/ontologies/taxonomy/",
         "foaf" => "http://xmlns.com/foaf/0.1/",
+        "pav" => "http://purl.org/pav/",
         "rdfs" => "http://www.w3.org/2000/01/rdf-schema#",
         "schema" => "http://schema.org/",
         "sio" => "http://semanticscience.org/resource/",
@@ -69,20 +70,18 @@ class PunkAPI
           "@id" => "dcterms:modified",
           "@type" => "xsd:dateTime",
         },
-        "access" => "biocow:access",
-        "organization" => "dcterms:contributor",
+        "access" => "dcterms:accessRights",
+        "organization" => "pav:authoredBy",
         "organization_name" => "foaf:name",
         "organization_role" => "sio:SIO_000228", # has role
         "organization_type" => "biocow:organization_type",
         # Project/Project/Description
         "Project" => "@nest",
         "ProjectDescription" => "@nest",
-        "ProjectID" => "@nest",
-        "ProjectType" => "@nest",
         "name" => "rdfs:label",
-        "relevance" => "biocow:relevance",
-        "propertyType" => "schema:propertyID",
-        "propertyValue" => "schema:property",
+        "relevance" => "sio:SIO000668", # in relation to
+        "propertyType" => "biocow:hasPropertyType",
+        "propertyValue" => "biocow:hasPropertyValue",
         "release_date" => {
           "@id" => "dcterms:available",
           "@type" => "xsd:dateTime",
@@ -90,19 +89,26 @@ class PunkAPI
         "title" => "dcterms:title",
         "description" => "dcterms:description",
         # Project/Project/ID
-        "archive" => "biocow:archive",
-        "archive_id" => "biocow:archive_id",
-        "archive_accession_id" => "dcterms:identifier",
+        "ProjectID" => "@nest",
+        "ArchiveID" => {
+          "@id" => "@nest",
+          "@context" => {
+            "archive" => "pav:providedBy",
+            "id" => "biocow:archive_id",
+            "accession" => "dcterms:identifier",
+          },
+        },
         # Project/Project/Type
-        "method_type" => "biocow:method_type",
+        "ProjectType" => "@nest",
+        "method_type" => "bao:BAO_0000212", # has assay method
         "data_type" => "biocow:data_type",
-        "objectives" => "biocow:objectives",
+        "objectives" => "sio:SIO_000362", # satisfies
         # Project/Project/Type/Target
         "target" => "sio:SIO_000291", # has target
-        "material" => "biocow:material",
+        "material" => "sio:SIO_000132", # has participant
         # Project/Project/Type/Target/Organism
         "organism" => {
-          "@id" => "biocow:organism",
+          "@id" => "bao:BAO_0002921", # has organism
           "@type" => "ddbj-tax:Taxon",
         },
         "taxid" => "dcterms:identifier",
@@ -150,9 +156,11 @@ class PunkAPI
             "description" => description[:description],
           },
           "ProjectID" => {
-            "archive" => id[:archive],
-            "archive_id" => id[:archive_id],
-            "archive_accession_id" => id[:archive_accession_id],
+            "ArchiveID" => {
+              "archive" => id[:archive],
+              "id" => id[:archive_id],
+              "accession" => id[:archive_accession_id],
+            },
           },
           "ProjectType" => {
             "data_type" => type[:data_type],

@@ -1,9 +1,11 @@
 {
   "@context": {
+    "bao": "http://www.bioassayontology.org/bao#",
     "biocow": "http://bio.cow/",
     "dcterms": "http://purl.org/dc/terms/",
     "ddbj-tax": "http://ddbj.nig.ac.jp/ontologies/taxonomy/",
     "foaf": "http://xmlns.com/foaf/0.1/",
+    "pav": "http://purl.org/pav/",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "schema": "http://schema.org/",
     "sio": "http://semanticscience.org/resource/",
@@ -20,35 +22,40 @@
       "@id": "dcterms:modified",
       "@type": "xsd:dateTime"
     },
-    "access": "biocow:access",
-    "organization": "dcterms:contributor",
+    "access": "dcterms:accessRights",
+    "organization": "pav:authoredBy",
     "organization_name": "foaf:name",
     "organization_role": "sio:SIO_000228",
     "organization_type": "biocow:organization_type",
     "Project": "@nest",
     "ProjectDescription": "@nest",
-    "ProjectID": "@nest",
-    "ProjectType": "@nest",
     "name": "rdfs:label",
-    "relevance": "biocow:relevance",
-    "propertyType": "schema:propertyID",
-    "propertyValue": "schema:property",
+    "relevance": "sio:SIO000668",
+    "propertyType": "biocow:hasPropertyType",
+    "propertyValue": "biocow:hasPropertyValue",
     "release_date": {
       "@id": "dcterms:available",
       "@type": "xsd:dateTime"
     },
     "title": "dcterms:title",
     "description": "dcterms:description",
-    "archive": "biocow:archive",
-    "archive_id": "biocow:archive_id",
-    "archive_accession_id": "dcterms:identifier",
-    "method_type": "biocow:method_type",
+    "ProjectID": "@nest",
+    "ArchiveID": {
+      "@id": "@nest",
+      "@context": {
+        "archive": "pav:providedBy",
+        "id": "biocow:archive_id",
+        "accession": "dcterms:identifier"
+      }
+    },
+    "ProjectType": "@nest",
+    "method_type": "bao:BAO_0000212",
     "data_type": "biocow:data_type",
-    "objectives": "biocow:objectives",
+    "objectives": "sio:SIO_000362",
     "target": "sio:SIO_000291",
-    "material": "biocow:material",
+    "material": "sio:SIO_000132",
     "organism": {
-      "@id": "biocow:organism",
+      "@id": "bao:BAO_0002921",
       "@type": "ddbj-tax:Taxon"
     },
     "taxid": "dcterms:identifier",
@@ -84,9 +91,11 @@
       "description": "A high throughput sequencing targeting V4 regions of 16S rRNA gene sequences was performed to investigate prokaryotic community composition in a deep holomictic lake with fully oxygenated hypolimnion (Lake Biwa, Japan). Sampling at a pelagic site over 15 months (March 2010 - June 2011) across the water column revealed spatio-temporal preferences of individual phylogenetic groups."
     },
     "ProjectID": {
-      "archive": "DDBJ",
-      "archive_id": "308982",
-      "archive_accession_id": "PRJDB4503"
+      "ArchiveID": {
+        "archive": "DDBJ",
+        "id": "308982",
+        "accession": "PRJDB4503"
+      }
     },
     "ProjectType": {
       "data_type": "Targeted Locus (Loci)",

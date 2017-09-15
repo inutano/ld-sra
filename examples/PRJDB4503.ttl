@@ -1,42 +1,40 @@
+@prefix bao: <http://www.bioassayontology.org/bao#> .
 @prefix biocow: <http://bio.cow/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix ddbj-tax: <http://ddbj.nig.ac.jp/ontologies/taxonomy/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix pav: <http://purl.org/pav/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix schema: <http://schema.org/> .
 @prefix sio: <http://semanticscience.org/resource/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <http://identifiers.org/bioproject/PRJDB4503> rdfs:label "lake water metagenome";
    dcterms:title "Vertical and seasonal preferences of freshwater bacterioplankton tribes in a deep mesotrophic lake with fully oxygenated hypolimnion (Lake Biwa, Japan)";
-   biocow:access "public";
-   biocow:archive "DDBJ";
-   biocow:archive_id "308982";
    biocow:data_type "Targeted Locus (Loci)";
-   biocow:method_type "eSequencing";
-   biocow:objectives "eSequence",
-     "eAnalysis";
-   biocow:relevance [
-     schema:property [ rdfs:label "yes"];
-     schema:propertyID [ rdfs:label "Environmental"]
-   ];
+   dcterms:accessRights "public";
    dcterms:available "2016-01-15T17:43:16Z"^^xsd:dateTime;
-   dcterms:contributor [
+   dcterms:dateSubmitted "2016-01-13"^^xsd:dateTime;
+   dcterms:description "A high throughput sequencing targeting V4 regions of 16S rRNA gene sequences was performed to investigate prokaryotic community composition in a deep holomictic lake with fully oxygenated hypolimnion (Lake Biwa, Japan). Sampling at a pelagic site over 15 months (March 2010 - June 2011) across the water column revealed spatio-temporal preferences of individual phylogenetic groups.";
+   dcterms:modified "2016-01-16"^^xsd:dateTime;
+   pav:authoredBy [
      biocow:organization_type "center";
      sio:SIO_000228 "owner";
      foaf:name "Center for Ecological Research, Kyoto University"
    ];
-   dcterms:dateSubmitted "2016-01-13"^^xsd:dateTime;
-   dcterms:description "A high throughput sequencing targeting V4 regions of 16S rRNA gene sequences was performed to investigate prokaryotic community composition in a deep holomictic lake with fully oxygenated hypolimnion (Lake Biwa, Japan). Sampling at a pelagic site over 15 months (March 2010 - June 2011) across the water column revealed spatio-temporal preferences of individual phylogenetic groups.";
-   dcterms:identifier "PRJDB4503";
-   dcterms:modified "2016-01-16"^^xsd:dateTime;
+   sio:SIO000668 [
+     biocow:hasPropertyType [ rdfs:label "Environmental"];
+     biocow:hasPropertyValue [ rdfs:label "yes"]
+   ];
    sio:SIO_000291 [
-     biocow:material "ePartialGenome";
-     biocow:organism [
+     sio:SIO_000132 "ePartialGenome";
+     bao:BAO_0002921 [
        rdfs:label "lake water metagenome";
        biocow:species "1647806";
        biocow:supergroup "eOther";
        ddbj-tax:scientificName "lake water metagenome";
        dcterms:identifier "1647806"
      ]
-   ] .
+   ];
+   sio:SIO_000362 "eAnalysis",
+     "eSequence";
+   bao:BAO_0000212 "eSequencing" .
