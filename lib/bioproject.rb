@@ -70,10 +70,10 @@ class PunkAPI
           "@id" => "dcterms:modified",
           "@type" => "xsd:dateTime",
         },
-        "access" => "dcterms:accessRights",
+        "access" => "dcterms:accessRights", # Need a fix since dcterms:accessRight is ObjectProperty
         "organization" => "pav:authoredBy",
         "organization_name" => "foaf:name",
-        "organization_role" => "sio:SIO_000228", # has role
+        "organization_role" => "sio:SIO_000228", # has role, need a fix since sio:hasRole is ObjectProperty
         "organization_type" => "biocow:organization_type",
         # Project/Project/Description
         "Project" => "@nest",
