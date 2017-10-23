@@ -253,16 +253,17 @@ if __FILE__ == $0
   endpoint_url = "52.199.195.71"
   PunkAPI.endpoint_url = endpoint_url
 
-  id = "PRJDB4503"
-  bp = PunkAPI::BioProject.new(id)
+  ids = ["PRJDB4503","PRJNA215990","PRJEB6637","PRJNA260331",]
 
-  #puts JSON.pretty_generate(bp.to_json)
-  case ARGV.first
-  when "turtle"
-    puts bp.turtle
-  when "json"
-    puts JSON.pretty_generate(bp.json)
-  when "jsonld"
-    puts JSON.pretty_generate(bp.jsonld)
+  ids.each do |id|
+    bp = PunkAPI::BioProject.new(id)
+    case ARGV.first
+    when "turtle"
+      puts bp.turtle
+    when "json"
+      puts JSON.pretty_generate(bp.json)
+    when "jsonld"
+      puts JSON.pretty_generate(bp.jsonld)
+    end
   end
 end
