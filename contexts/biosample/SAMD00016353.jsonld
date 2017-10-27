@@ -1,0 +1,75 @@
+{
+  "@context" : "https://raw.githubusercontent.com/inutano/ld-sra/master/contexts/biosample/biosample.jsonld",
+  "URI" : "http://identifiers.org/biosample/SAMD00016353",
+  "Status": {
+    "@status": "live",
+    "@when": "2010-03-26T00:00:00.000"
+  },
+  "@access": "public",
+  "@submission_date": "2010-04-06T05:11:37.466",
+  "Package": {
+    "#text": "Generic.1.0",
+    "@display_name": "Generic"
+  },
+  "@last_update": "2014-11-12T03:29:46.000",
+  "Attributes": {
+    "Attribute": [
+      {
+        "#text": "DRS000001",
+        "@harmonized_name": "sample_name",
+        "@attribute_name": "sample_name",
+        "@display_name": "sample name"
+      },
+      {
+        "#text": "BEST195",
+        "@harmonized_name": "strain",
+        "@attribute_name": "strain",
+        "@display_name": "strain"
+      },
+      {
+        "#text": "Genomic DNA from Bacillus subtilis subsp. natto BEST195, without pBEST195L plasid.",
+        "@attribute_name": "sample comment"
+      },
+      {
+        "#text": "Bacillus subtilis subsp. natto",
+        "@attribute_name": "common name"
+      },
+      {
+        "#text": "natto",
+        "@harmonized_name": "sub_species",
+        "@attribute_name": "sub_species",
+        "@display_name": "sub species"
+      }
+    ]
+  },
+  "Owner": {
+    "Name": "Bioinformatics Lab."
+  },
+  "Description": {
+    "Title": "DRS000001",
+    "Organism": {
+      "OrganismName": "Bacillus subtilis subsp. natto BEST195",
+      "@taxonomy_id": "645657",
+      "@taxonomy_name": "Bacillus subtilis subsp. natto BEST195"
+    }
+  },
+  "@id": "10778",
+  "Models": {
+    "Model": "Generic"
+  },
+  "@accession": "SAMD00016353",
+  "@publication_date": "2010-03-26T00:00:00.000",
+  "Ids": {
+    "Id": [
+      {
+        "@is_primary": "1",
+        "@db": "BioSample",
+        "#text": "SAMD00016353"
+      },
+      {
+        "@db": "SRA",
+        "#text": "DRS000001"
+      }
+    ]
+  }
+}
