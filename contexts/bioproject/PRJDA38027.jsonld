@@ -1,0 +1,145 @@
+{
+  "@context" : "https://raw.githubusercontent.com/inutano/ld-sra/master/contexts/bioproject/bioproject.jsonld",
+  "URI" : "http://identifiers.org/bioproject/PRJNA17579",
+  "ProjectLinks": {
+    "Link": {
+      "Hierarchical": {
+        "@type": "TopSingle",
+        "MemberID": {
+          "@accession": "PRJNA17579",
+          "@id": "17579",
+          "@archive": "NCBI"
+        }
+      },
+      "ProjectIDRef": {
+        "@accession": "PRJDA38027",
+        "@id": "38027",
+        "@archive": "DDBJ"
+      }
+    }
+  },
+  "Submission": {
+    "@submitted": "2009-05-13",
+    "Description": {
+      "Access": "public",
+      "Organization": {
+        "@role": "owner",
+        "@type": "center",
+        "Name": {
+          "@abbr": "Keio University",
+          "#text": "Keio University"
+        }
+      }
+    }
+  },
+  "Project": {
+    "ProjectDescr": {
+      "ProjectReleaseDate": "2010-03-24T00:00:00Z",
+      "LocusTagPrefix": {
+        "@biosample_id": "SAMD00016353",
+        "#text": "BSNT",
+        "@assembly_id": "GCA_000209795"
+      },
+      "Title": "Bacillus subtilis subsp. natto BEST195 genome sequencing project",
+      "Publication": [
+        {
+          "@status": "ePublished",
+          "@id": "20398357",
+          "DbType": "ePubmed",
+          "@date": "2010-04-20T00:00:00Z",
+          "Reference": null
+        },
+        {
+          "@status": "ePublished",
+          "DbType": "ePubmed",
+          "@id": "25329997",
+          "Reference": null
+        }
+      ],
+      "Name": "Bacillus subtilis subsp. natto BEST195",
+      "Description": "<p>\n<b><i>Bacillus subtilis</i> subsp. <i>natto</i> BEST195</b>. i>Bacillus subtilis</i> subsp. <i>natto</i> BEST195 was isolated from fermented soybeans and will be used for comparative genome analysis."
+    },
+    "ProjectType": {
+      "ProjectTypeSubmission": {
+        "Method": {
+          "@method_type": "eSequencing"
+        },
+        "Target": {
+          "@capture": "eWhole",
+          "@material": "eGenome",
+          "Organism": {
+            "Strain": "BEST195",
+            "Supergroup": "eBacteria",
+            "RepliconSet": {
+              "Count": {
+                "@repliconType": "eOther",
+                "#text": "2"
+              },
+              "Replicon": [
+                {
+                  "Type": {
+                    "@location": "eNuclearProkaryote",
+                    "#text": "eChromosome"
+                  },
+                  "@order": "1",
+                  "Name": "ANONYMOUS",
+                  "Size": {
+                    "#text": "4.100000",
+                    "@units": "Mb"
+                  }
+                },
+                {
+                  "Type": {
+                    "@location": "eNuclearProkaryote",
+                    "#text": "ePlasmid"
+                  },
+                  "@order": "2",
+                  "Name": "pBEST195S",
+                  "Size": {
+                    "#text": "0.005800",
+                    "@units": "Mb"
+                  }
+                }
+              ]
+            },
+            "@taxID": "645657",
+            "BiologicalProperties": {
+              "Environment": {
+                "Habitat": "eMultiple",
+                "OxygenReq": "eAerobic",
+                "TemperatureRange": "eMesophilic"
+              },
+              "Morphology": {
+                "Motility": "eYes",
+                "Gram": "ePositive",
+                "Shape": "eBacilli"
+              }
+            },
+            "GenomeSize": {
+              "#text": "4105.800000",
+              "@units": "Kb"
+            },
+            "OrganismName": "Bacillus subtilis subsp. natto BEST195",
+            "@species": "1423"
+          },
+          "@sample_scope": "eMonoisolate"
+        },
+        "Objectives": {
+          "Data": {
+            "@data_type": "eAssembly"
+          }
+        },
+        "ProjectDataTypeSet": {
+          "DataType": "Genome sequencing"
+        }
+      }
+    },
+    "ProjectID": {
+      "ArchiveID": {
+        "@accession": "PRJDA38027",
+        "@id": "38027",
+        "@archive": "DDBJ"
+      }
+    }
+  }
+}
