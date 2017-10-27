@@ -1,0 +1,35 @@
+{
+  "@context" : "https://raw.githubusercontent.com/inutano/ld-sra/master/contexts/sra-run/sra-run.jsonld",
+  "URI" : "http://identifiers.org/insdc.sra/DRR000001",
+  "EXPERIMENT_REF": {
+    "@refname": "DRX000001",
+    "@refcenter": "KEIO",
+    "@accession": "DRX000001",
+    "IDENTIFIERS": {
+      "SUBMITTER_ID": {
+        "#text": "DRX000001",
+        "@namespace": "KEIO"
+      },
+      "PRIMARY_ID": "DRX000001"
+    }
+  },
+  "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+  "@accession": "DRR000001",
+  "@alias": "2008-09-12.BEST195-Lane7",
+  "@center_name": "KEIO",
+  "@run_date": "2008-09-12T16:27:27Z",
+  "@run_center": "NIG",
+  "IDENTIFIERS": {
+    "SUBMITTER_ID": [
+      {
+        "#text": "2008-09-12.BEST195-Lane7",
+        "@namespace": "KEIO"
+      },
+      {
+        "#text": "DRR000001",
+        "@namespace": "KEIO"
+      }
+    ],
+    "PRIMARY_ID": "DRR000001"
+  }
+}
