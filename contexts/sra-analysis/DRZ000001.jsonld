@@ -1,0 +1,65 @@
+{
+  "@context" : "https://raw.githubusercontent.com/inutano/ld-sra/master/contexts/sra-analysis/sra-analysis.jsonld",
+  "URI" : "http://identifiers.org/insdc.sra/DRZ000001",
+  "DATA_BLOCK": {
+    "FILES": {
+      "FILE": {
+        "@filetype": "fasta",
+        "@checksum_method": "MD5",
+        "@filename": "Ssalivarius-50mer.filt.fasta.contig",
+        "@checksum": "4d9cbbb337fac9b936c1b3e725bd3aef"
+      }
+    }
+  },
+  "@accession": "DRZ000001",
+  "DESCRIPTION": "de novo assembly by Euler-SR v1.0 using 50 mer short reads.",
+  "@center_name": "NIID",
+  "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+  "@analysis_center": "NIID",
+  "@alias": "DRZ000001",
+  "STUDY_REF": {
+    "@refname": "PRJDA43375",
+    "@accession": "DRP000072",
+    "IDENTIFIERS": {
+      "EXTERNAL_ID": {
+        "#text": "PRJDA43375",
+        "@namespace": "BioProject"
+      },
+      "PRIMARY_ID": "DRP000072"
+    }
+  },
+  "ANALYSIS_ATTRIBUTES": {
+    "ANALYSIS_ATTRIBUTE": [
+      {
+        "VALUE": "Euler-SR",
+        "TAG": "assembly_program"
+      },
+      {
+        "VALUE": "1.0",
+        "TAG": "assembly_program_version"
+      }
+    ]
+  },
+  "ANALYSIS_TYPE": {
+    "DE_NOVO_ASSEMBLY": {
+      "PROCESSING": {
+        "PIPELINE": {
+          "PIPE_SECTION": {
+            "STEP_INDEX": "0",
+            "VERSION": "1.0",
+            "PROGRAM": "Euler-SR",
+            "PREV_STEP_INDEX": "NIL"
+          }
+        }
+      }
+    }
+  },
+  "TITLE": "Whole genome analysis of Streptococcus salivarius",
+  "IDENTIFIERS": {
+    "SUBMITTER_ID": {
+      "#text": "DRZ000001",
+      "@namespace": "NIID"
+    },
+    "PRIMARY_ID": "DRZ000001"
+  }
+}
