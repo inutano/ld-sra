@@ -1,0 +1,100 @@
+{
+  "@context" : "https://raw.githubusercontent.com/inutano/ld-sra/master/contexts/sra-experiment/sra-experiment.jsonld",
+  "URI" : "http://identifiers.org/insdc.sra/DRX000001",
+  "@alias": "DRX000001",
+  "PLATFORM": {
+    "ILLUMINA": {
+      "INSTRUMENT_MODEL": "Illumina Genome Analyzer II"
+    }
+  },
+  "PROCESSING": {
+    "PIPELINE": {
+      "PIPE_SECTION": {
+        "STEP_INDEX": null,
+        "PROGRAM": "Solexa primary analysis",
+        "PREV_STEP_INDEX": null,
+        "VERSION": null
+      }
+    }
+  },
+  "IDENTIFIERS": {
+    "PRIMARY_ID": "DRX000001",
+    "SUBMITTER_ID": {
+      "@namespace": "KEIO",
+      "#text": "DRX000001"
+    }
+  },
+  "@accession": "DRX000001",
+  "STUDY_REF": {
+    "@refcenter": "KEIO",
+    "@accession": "DRP000001",
+    "@refname": "DRP000001",
+    "IDENTIFIERS": {
+      "EXTERNAL_ID": {
+        "@namespace": "BioProject",
+        "@label": "BioProject ID",
+        "#text": "PRJDA38027"
+      },
+      "PRIMARY_ID": "DRP000001",
+      "SUBMITTER_ID": {
+        "@namespace": "KEIO",
+        "#text": "DRP000001"
+      }
+    }
+  },
+  "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+  "DESIGN": {
+    "LIBRARY_DESCRIPTOR": {
+      "LIBRARY_SELECTION": "RANDOM",
+      "LIBRARY_SOURCE": "GENOMIC",
+      "LIBRARY_LAYOUT": {
+        "PAIRED": {
+          "@NOMINAL_LENGTH": "163",
+          "@NOMINAL_SDEV": "24.7558"
+        }
+      },
+      "LIBRARY_CONSTRUCTION_PROTOCOL": "The DNA is purified through the ultracentrifugation in presence of cecium-chloride and ethidium-bromide, then fragmented by ultrasonic waves. Fragments around 160bp were isolated by gel electrophoresis.",
+      "LIBRARY_NAME": "B.subtilis natto BEST195 Genomic DNA fragments, isolated Aug 2008",
+      "LIBRARY_STRATEGY": "WGS"
+    },
+    "SPOT_DESCRIPTOR": {
+      "SPOT_DECODE_SPEC": {
+        "SPOT_LENGTH": "72",
+        "READ_SPEC": [
+          {
+            "READ_INDEX": "0",
+            "BASE_COORD": "1",
+            "READ_TYPE": "Forward",
+            "READ_CLASS": "Application Read"
+          },
+          {
+            "READ_INDEX": "1",
+            "BASE_COORD": "37",
+            "READ_TYPE": "Reverse",
+            "READ_CLASS": "Application Read"
+          }
+        ]
+      }
+    },
+    "DESIGN_DESCRIPTION": "Randomly fragmented by ultrasonic waves.",
+    "SAMPLE_DESCRIPTOR": {
+      "@refcenter": "KEIO",
+      "@accession": "DRS000001",
+      "@refname": "DRS000001",
+      "IDENTIFIERS": {
+        "EXTERNAL_ID": {
+          "@namespace": "BioSample",
+          "@label": "BioSample ID",
+          "#text": "SAMD00016353"
+        },
+        "PRIMARY_ID": "DRS000001",
+        "SUBMITTER_ID": {
+          "@namespace": "KEIO",
+          "#text": "DRS000001"
+        }
+      }
+    }
+  },
+  "@center_name": "KEIO",
+  "TITLE": "B. subtilis subsp. natto genome sequencing September 2008"
+}
