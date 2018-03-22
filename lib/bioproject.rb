@@ -22,7 +22,7 @@ class PunkAPI
     end
 
     def endpoint_path
-      "http://#{PunkAPI.endpoint_url}/bioproject/#{@id}"
+      "http://#{PunkAPI.endpoint_url}/api/bioproject/#{@id}"
     end
 
     def data
@@ -252,7 +252,7 @@ if __FILE__ == $0
   #   "PRJEB6637",
   #   "PRJNA260331",
   # ]
-  ids = JSON.load(open("http://" + endpoint_url + "/bioproject?term=lake%20water"))["ids"]
+  ids = JSON.load(open("http://" + endpoint_url + "/api/bioproject?term=lake%20water"))["ids"]
 
   ids.each do |id|
     bp = LDSRA::BioProject.new(id)
