@@ -52,10 +52,12 @@ class LDSRA
     def initialize(id)
       @id = id
       @json_raw = PunkAPI::BioProject.new(@id).json
+      @json = generate_json
     end
     attr_reader :json_raw
+    attr_reader :json
 
-    def json
+    def generate_json
       {
         "submission" => json_submission,
         "project" => json_project,
@@ -106,13 +108,19 @@ class LDSRA
     def json_project_descr
       p_desc = @json_raw["Package"]["Project"]["Project"]["ProjectDescr"]
       {
-        "name" =>         p_desc["Name"]["$"],
-        "title" =>        p_desc["Title"]["$"],
-        "description" =>  p_desc["Description"]["$"],
-        "externalLink" => json_project_descr_elink,
-        "grant" =>        json_project_descr_grant,
-        "publication" =>  json_project_descr_publication,
+        "name"               => p_desc["Name"]["$"],
+        "title"              => p_desc["Title"]["$"],
+        "description"        => p_desc["Description"]["$"],
+        "projectReleaseDate" => json_project_descr_release_date,
+        "externalLink"       => json_project_descr_elink,
+        "grant"              => json_project_descr_grant,
+        "publication"        => json_project_descr_publication,
       }
+    end
+
+    def json_project_descr_release_date
+      rd = @json_raw["Package"]["Project"]["Project"]["ProjectDescr"]["ProjectReleaseDate"]
+      rd["$"] if rd
     end
 
     def json_project_descr_elink
@@ -209,18 +217,18 @@ class LDSRA
         "identifier" => @id,
         "label" => "BioProject entry #{@id}",
 
-        "Submission" => jsonld_submission,
-        "Project" => jsonld_project,
-        "ProjectLinks" => jsonld_links,
+        "submission" => jsonld_submission,
+        "project" => jsonld_project,
+        "projectLinks" => jsonld_links,
       }
     end
 
     def jsonld_submission
-      if @json["Package"]["Project"]["Submission"]
+      if @json["submission"]
         {
           "@context" => submission_context,
         }.merge(
-          @json["Package"]["Project"]["Submission"]
+          @json["submission"]
         )
       else
         {}
@@ -228,11 +236,11 @@ class LDSRA
     end
 
     def jsonld_project
-      if @json["Package"]["Project"]["Project"]
+      if @json["project"]
         {
           "@context" => project_context,
         }.merge(
-          @json["Package"]["Project"]["Project"]
+          @json["project"]
         )
       else
         {}
@@ -240,11 +248,13 @@ class LDSRA
     end
 
     def jsonld_links
-      if @json["Package"]["Project"]["ProjectLinks"]
+      if @json["projectLinks"]
         {
           "@context" => links_context,
         }.merge(
-          @json["Package"]["Project"]["ProjectLinks"]
+          {
+            "links" => @json["projectLinks"],
+          }
         )
       else
         {}
@@ -291,9 +301,9 @@ class LDSRA
           "entry_type" => "@type",
           "label" => "rdfs:label",
           "identifier" => "dcterms:identifier",
-          "Submission" => "biocow:hasSubmission",
-          "Project" => "biocow:hasProject",
-          "ProjectLinks" => "biocow:hasLinks",
+          "submission" => "biocow:hasSubmission",
+          "project" => "biocow:hasProject",
+          "projectLinks" => "biocow:hasLinks",
         }
       )
     end
@@ -307,23 +317,20 @@ class LDSRA
           "@id" => "dcterms:dateSubmitted",
           "@type" => "xsd:dateTime",
         },
-        "last_update" => {
+        "lastUpdate" => {
           "@id" => "dcterms:modified",
           "@type" => "xsd:dateTime",
         },
-        "Description" => "@nest",
-        "Access" => "biocow:access", # "dcterms:accessRights" is ObjectProperty
-        "Organization" => {
+        "description" => "@nest",
+        "access" => "biocow:access", # "dcterms:accessRights" is ObjectProperty
+        "organization" => {
           "@id" => "pav:authoredBy",
           "@context" => {
-            # will be update
-            # "Name" => "@nest",
-            # "$" => "rdfs:label",
-            # "attr" => "skos:altLabel",
-            "Name" => "rdfs:label",
+            "name" => "rdfs:label",
             "role" => "biocow:role", # sio:SIO_000228 is ObjectProperty 'has role'
             "type" => "biocow:organization_type",
             "url" => "foaf:homepage",
+            "abbreviation" => "skos:altLabel",
           },
         },
       }
@@ -335,20 +342,24 @@ class LDSRA
     def project_context
       {
         # /Project/ProjectID
-        "ProjectID" => "@nest",
+        "projectId" => "@nest",
         # /Project/ProjectID/ArchiveID
-        "ArchiveID" => "@nest",
+        "archiveId" => "@nest",
         "archive" => "pav:providedBy",
         "id" => "biocow:archive_id",
         "accession" => "dcterms:identifier",
         # /Project/ProjectID/ProjectDescr
-        "ProjectDescr" => "@nest",
-        "Title" => "dcterms:title",
-        "Description" => "dcterms:description",
-        "ProjectReleaseDate" => {
+        "projectDescription" => "@nest",
+        "name" => "foaf:name",
+        "title" => "dcterms:title",
+        "description" => "dcterms:description",
+        "projectReleaseDate" => {
           "@id" => "dcterms:available",
           "@type" => "xsd:dateTime",
-        }
+        },
+        "externalLink" => "biocow:externalLink",
+        "grant" => "biocow:grant",
+        "publication" => "biocow:publication",
         # /Project/ProjectID/ProjectType
         # Ignore so far
       }
@@ -359,29 +370,29 @@ class LDSRA
     #
     def links_context
       {
-        "Link" => "@nest",
-        "Hierarchical" => {
-          "@id" => "biocow:hierarchicalLink",
-          "@context" => {
-            "type" => "biocow:linkType",
-            "MemberID" => {
-              "@id" => "biocow:members",
-              "@context" => {
-                "archive" => "pav:providedBy",
-                "id" => "biocow:archive_id",
-                "accession" => "dcterms:identifier",
-              },
-            }
-          },
-        },
-        "ProjectIDRef" => {
-          "@id" => "biocow:projectId",
-          "@context" => {
-            "archive" => "pav:providedBy",
-            "id" => "biocow:archive_id",
-            "accession" => "dcterms:identifier",
-          },
-        },
+        "links" => "@nest",
+        # "Hierarchical" => {
+        #   "@id" => "biocow:hierarchicalLink",
+        #   "@context" => {
+        #     "type" => "biocow:linkType",
+        #     "MemberID" => {
+        #       "@id" => "biocow:members",
+        #       "@context" => {
+        #         "archive" => "pav:providedBy",
+        #         "id" => "biocow:archive_id",
+        #         "accession" => "dcterms:identifier",
+        #       },
+        #     }
+        #   },
+        # },
+        # "ProjectIDRef" => {
+        #   "@id" => "biocow:projectId",
+        #   "@context" => {
+        #     "archive" => "pav:providedBy",
+        #     "id" => "biocow:archive_id",
+        #     "accession" => "dcterms:identifier",
+        #   },
+        # },
       }
     end
 
