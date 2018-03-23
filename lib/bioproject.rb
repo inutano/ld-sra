@@ -30,7 +30,8 @@ class PunkAPI
     end
 
     def json
-      JSON.load_without_attr_symbol(data)
+      #JSON.load_without_attr_symbol(data)
+      JSON.load(data)
     end
   end
 end
@@ -50,9 +51,155 @@ class LDSRA
 
     def initialize(id)
       @id = id
-      @json = PunkAPI::BioProject.new(@id).json
+      @json_raw = PunkAPI::BioProject.new(@id).json
     end
-    attr_reader :json
+    attr_reader :json_raw
+
+    def json
+      {
+        "submission" => json_submission,
+        "project" => json_project,
+        "projectLinks" => json_links,
+      }
+    end
+
+    def json_submission
+      submission = @json_raw["Package"]["Project"]["Submission"]
+      {
+        "submissionId" => submission["@submission_id"],
+        "submitted" => submission["@submitted"],
+        "lastUpdate" => submission["@last_update"],
+        "description" => {
+          "access" => submission["Description"]["Access"]["$"],
+          "organization" => json_submission_organization,
+        },
+      }
+    end
+
+    def json_submission_organization
+      org = @json_raw["Package"]["Project"]["Submission"]["Description"]["Organization"]
+      # json can contain both a hash and an array of hashes, force them to be an array
+      org_arr = org.class == Hash ? [org] : org
+      org_arr.map do |o|
+        {
+          "name" => o["Name"]["$"],
+          "abbreviation" => o["Name"]["@abbr"],
+          "role" => o["@role"],
+          "type" => o["@type"],
+          "url" => o["@url"],
+        }
+      end
+    rescue NoMethodError
+      nil
+    end
+
+    def json_project
+      project = @json_raw["Package"]["Project"]["Project"]
+      {
+        "projectDescription" => json_project_descr,
+        "projectId" => json_project_id,
+        # Not supporting ProjectType field
+        # "ProjectType" => {},
+      }
+    end
+
+    def json_project_descr
+      p_desc = @json_raw["Package"]["Project"]["Project"]["ProjectDescr"]
+      {
+        "name" =>         p_desc["Name"]["$"],
+        "title" =>        p_desc["Title"]["$"],
+        "description" =>  p_desc["Description"]["$"],
+        "externalLink" => json_project_descr_elink,
+        "grant" =>        json_project_descr_grant,
+        "publication" =>  json_project_descr_publication,
+      }
+    end
+
+    def json_project_descr_elink
+      elink = @json_raw["Package"]["Project"]["Project"]["ProjectDescr"]["ExternalLink"]
+      elink_arr = elink.class == Hash ? [elink] : elink
+      elink_arr.map do |el|
+        {
+          "URL" => el["URL"]["$"],
+          "label" => el["@label"],
+          "category" => el["@category"]
+        }
+      end
+    rescue NoMethodError
+      nil
+    end
+
+    def json_project_descr_grant
+      grant = @json_raw["Package"]["Project"]["Project"]["ProjectDescr"]["Grant"]
+      grant_arr = grant.class == Hash ? [grant] : grant
+      grant_arr.map do |g|
+        {
+          "grantId" => g["@GrantId"],
+          "agency" => {
+            "name" => g["Agency"]["$"],
+            "abbreviation" => g["Agency"]["@abbr"],
+          }
+        }
+      end
+    rescue NoMethodError
+      nil
+    end
+
+    def json_project_descr_publication
+      publication = @json_raw["Package"]["Project"]["Project"]["ProjectDescr"]["Publication"]
+      publication_arr = publication.class == Hash ? [publication] : publication
+      publication_arr.map do |pub|
+        db_type = pub["DbType"]["$"]
+        id      = pub["@id"]
+        url = case db_type
+              when "ePubmed"
+                "http://identifiers.org/pubmed/" + id
+              when "ePMC"
+                "http://identifiers.org/pmc/" + id
+              end
+        {
+          "URL" => url,
+          "identifier" => id,
+          "publicationDate" => pub["@date"],
+          "status" => pub["@status"],
+        }
+      end
+    rescue NoMethodError
+      nil
+    end
+
+    def json_project_id
+      p_id = @json_raw["Package"]["Project"]["Project"]["ProjectID"]
+      {
+        "archiveId" => {
+          "accession" => p_id["ArchiveID"]["@accession"],
+          "archive" => p_id["ArchiveID"]["@archive"],
+          "id" => p_id["ArchiveID"]["@id"],
+        }
+      }
+    end
+
+    def json_links
+      link = @json_raw["Package"]["Project"]["ProjectLinks"]["Link"]
+      link_arr = link.class == Hash ? [link] : link
+      link_arr.map do |l|
+        if l.has_key?("Hierarchical")
+          {
+            "@type" => "biocow:BioProjectLink",
+          }
+        elsif l.has_key?("PeerProject")
+          {
+            "@type" => "biocow:BioProjectLink",
+          }
+        end
+      end
+    rescue NoMethodError
+      nil
+    end
+
+    #
+    # JSON-LD context
+    #
 
     def jsonld
       {
