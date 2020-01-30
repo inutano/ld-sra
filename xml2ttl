@@ -6,8 +6,8 @@ require 'lib/experiment'
 
 class XML2TTL < Thor
   desc "experiment <SRA Experiment XML>", "generate RDF-Turtle from SRA Experiment XML file"
-  def xml2ttl(xml)
-    Nokogiri::XML::SAX::Parser.new(SARExperimentXML.new).parse(File.open(xml))
+  def experiment(xml)
+    Nokogiri::XML::SAX::Parser.new(SRAExperimentXML.new).parse(File.open(xml))
   end
 end
 
