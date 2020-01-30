@@ -4,7 +4,7 @@ class SRAExperimentXML < Nokogiri::XML::SAX::Document
   def initialize
     write_prefixes
 
-    @parent_name = ""
+    @parent_name = []
     @inner_text = ""
 
     @experiment_attr = {
@@ -33,9 +33,20 @@ class SRAExperimentXML < Nokogiri::XML::SAX::Document
   #
 
   def start_element(name, attrs = [])
+    case @parent_name.last
+    when "LIBRARY_LAYOUT"
+      h = attrs.to_h
+      @experiment_attr[:design][:library_layout][:type] = name
+      @experiment_attr[:design][:library_layout][:nominal_length] = h["NOMINAL_LENGTH"]
+      @experiment_attr[:design][:library_layout][:nominal_sdev] = h["NOMINAL_SDEV"]
+    when "PLATFORM"
+      @experiment_attr[:platform] = name
+    end
+    @parent_name << name
+
     case name
-    when "Experiment"
-      experiment(attrs)
+    when "EXPERIMENT"
+      @experiment_attr[:id] = attrs.to_h["accession"]
     end
   end
 
@@ -45,7 +56,7 @@ class SRAExperimentXML < Nokogiri::XML::SAX::Document
 
   def end_element(name)
     case name
-    when "Title"
+    when "TITLE"
       @experiment_attr[:title] = @inner_text
     when "DESIGN_DESCRIPTION"
       @experiment_attr[:design_description] = @inner_text
@@ -59,6 +70,10 @@ class SRAExperimentXML < Nokogiri::XML::SAX::Document
       @experiment_attr[:design][:library_selection] = @inner_text
     when "LIBRARY_CONSTRUCTION_PROTOCOL"
       @experiment_attr[:design][:library_construction_protocol] = @inner_text
+    when "INSTRUMENT_MODEL"
+      @experiment_attr[:instrument_model] = @inner_text
+    when "EXPERIMENT"
+      output_turtle
     end
   end
 
@@ -74,11 +89,8 @@ class SRAExperimentXML < Nokogiri::XML::SAX::Document
     puts ""
   end
 
-  def experiment(attrs)
-    @experiment_attr[:id] = attrs.to_h["accession"]
-  end
-
   def output_turtle
+    p @experiment_attr
   end
 
   # def attribute(attrs)
