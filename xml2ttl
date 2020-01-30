@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+$LOAD_PATH << __dir__
+
+require 'thor'
+require 'lib/experiment'
+
+class XML2TTL < Thor
+  desc "experiment <SRA Experiment XML>", "generate RDF-Turtle from SRA Experiment XML file"
+  def xml2ttl(xml)
+    Nokogiri::XML::SAX::Parser.new(SARExperimentXML.new).parse(File.open(xml))
+  end
+end
+
+XML2TTL.start
