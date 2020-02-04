@@ -7,7 +7,7 @@ export PATH="${HOME}/.rbenv/bin:${PATH}"
 eval "$(rbenv init -)"
 
 # ARGS
-EXP_XML_PATH=${1}
+EXP_XML_PATH=$(awk -v id=${SGE_TASK_ID} 'NR == id { print $0 }' ${1})
 ACC=$(basename ${EXP_XML_PATH} .experiment.xml)
 
 # Path to directories
