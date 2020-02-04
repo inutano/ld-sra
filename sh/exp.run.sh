@@ -22,5 +22,5 @@ source "/home/geadmin/UGED/uged/common/settings.sh"
 find ${WORK_DIR} -name "exp.*" | sort | while read jobconf; do
   jobname=$(basename ${jobconf})
   qsub -N "${jobname}" -o /dev/null -pe def_slot 1 -l s_vmem=4G -l mem_req=4G -t 1-5000:1 \
-    ${BASE_DIR}/sh/exp.job.sh ${jobconf}
+    ${BASE_DIR}/sh/exp.job.sh ${jobconf} ${WORK_DIR}
 done
