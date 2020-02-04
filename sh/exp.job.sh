@@ -1,5 +1,5 @@
 #!/bin/sh
-#$ -S /bin/sh
+#$ -S /bin/sh -j y
 set -eux
 
 # Load rbenv
