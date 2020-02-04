@@ -19,5 +19,5 @@ ttl_path="${DEST_DIR}/${ACC}.experiment.ttl"
 if [[ ! -e "${ttl_path}" ]]; then
   mkdir -p "${DEST_DIR}"
   ${BASE_DIR}/xml2ttl experiment ${EXP_XML_PATH} |\
-    | grep -v "^@prefix" > "${ttl_path}"
+    grep -v "^@prefix" > "${ttl_path}"
 fi
