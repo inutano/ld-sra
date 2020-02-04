@@ -19,7 +19,7 @@ cd ${WORK_DIR} && \
 source "/home/geadmin/UGED/uged/common/settings.sh"
 
 # Execute array job
-cd ${WORK_DIR} && ls "array.*" | sort | while read jobconf; do
-  qsub -j y -N "${jobconf}" -o ${WORK_DIR} -pe def_slot 1 -l s_vmem=4G -l mem_req=4G -t 1-5000:1 \
+find ${WORK_DIR} -name "exp.array.*" | sort | while read jobconf; do
+  qsub -j y -N "${jobconf}" -o /dev/null -pe def_slot 1 -l s_vmem=4G -l mem_req=4G -t 1-5000:1 \
     ${BASE_DIR}/sh/exp.job.sh ${jobconf}
 done
