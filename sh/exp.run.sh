@@ -11,9 +11,11 @@ WORK_DIR="${RESULT_DIR}/$(date "+%Y%m%d")"
 mkdir -p "${WORK_DIR}"
 
 # Create array job configuration
-cd ${WORK_DIR} && \
-  find ${FASTQ_DIR} -name '*.experiment.xml' |\
-  split -l 5000 -d - "exp."
+if [[ -z $(find ${WORK_DIR} -name 'exp.*') ]]; then
+  cd ${WORK_DIR} && \
+    find ${FASTQ_DIR} -name '*.experiment.xml' |\
+    split -l 5000 -d - "exp."
+fi
 
 # Load UGE settings
 source "/home/geadmin/UGED/uged/common/settings.sh"
