@@ -12,8 +12,8 @@ ACC=$(basename ${EXP_XML_PATH} .experiment.xml)
 
 # Path to directories
 BASE_DIR="/home/inutano/repos/ld-sra"
-WORK_DIR=${2}
-DEST_DIR="${WORK_DIR}/${ACC:0:6}/${ACC}"
+TTL_DIR=${2}
+DEST_DIR="${TTL_DIR}/${ACC:0:6}/${ACC}"
 ttl_path="${DEST_DIR}/${ACC}.experiment.ttl"
 
 # run xml2ttl
