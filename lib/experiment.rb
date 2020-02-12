@@ -85,7 +85,7 @@ class SRAExperimentXML < Nokogiri::XML::SAX::Document
     puts "@prefix : <http://bio.cow/ontology/sra-experiement/> ."
     puts "@prefix id: <http://identifiers.org/insdc.sra/> ."
     puts "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> ."
-    puts "@prefix dct: <http://purl.obolibrary.org/obo/> ."
+    puts "@prefix dct: <http://purl.org/dc/terms/> ."
     puts ""
   end
 
