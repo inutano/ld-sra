@@ -51,7 +51,7 @@ class SRAExperimentXML < Nokogiri::XML::SAX::Document
   end
 
   def characters(string)
-    @inner_text = string.chomp
+    @inner_text = string.gsub(/\s+$/,"").chomp
   end
 
   def end_element(name)
