@@ -28,6 +28,31 @@ class SRAExperimentXML < Nokogiri::XML::SAX::Document
     }
   end
 
+  def initialize_stack
+    @parent_name = []
+    @inner_text = ""
+
+    @exp = {
+      id: "",
+      platform: "",
+      instrument_model: "",
+      design_description: "",
+      title: "",
+      design: {
+        library_selection: "",
+        library_source: "",
+        library_layout: {
+          type: "",
+          nominal_length: "",
+          nominal_sdev: "",
+        },
+        library_construction_protocol: "",
+        library_strategy: "",
+        library_name: "",
+      }
+    }
+  end
+
   #
   # SAX Event triggers
   #
@@ -74,6 +99,7 @@ class SRAExperimentXML < Nokogiri::XML::SAX::Document
       @exp[:instrument_model] = @inner_text.gsub("\s","_")
     when "EXPERIMENT"
       output_turtle
+      initialize_stack
     end
   end
 
