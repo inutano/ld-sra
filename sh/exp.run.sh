@@ -46,5 +46,5 @@ done
 
 # Assemble the ttl files by the accession number group
 cd "${TTL_DIR}" && ls -d *RA* | while read dir; do
-  cat $(ttl_prefixes) <(find ${dir} -name '*ttl' | xargs cat) > ./${dir}.ttl
+  cat <(echo $(ttl_prefixes)) <(find ${dir} -name '*ttl' | xargs cat) > ./${dir}.ttl
 done
