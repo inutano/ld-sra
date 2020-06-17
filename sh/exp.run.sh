@@ -15,8 +15,8 @@ else
   WORKDIR="$(cd ${1} && pwd -P)"
 fi
 
-JOBCONF_DIR="${WORK_DIR}/jobconf"
-TTL_DIR="${WORK_DIR}/ttl"
+JOBCONF_DIR="${WORKDIR}/jobconf"
+TTL_DIR="${WORKDIR}/ttl"
 mkdir -p "${JOBCONF_DIR}" "${TTL_DIR}"
 
 ttl_prefixes() {
@@ -53,5 +53,5 @@ done
 
 # Assemble the ttl files by the accession number group
 cd "${TTL_DIR}" && ls -d *RA* | while read dir; do
-  cat $(ttl_prefixes) <(find ${dir} -name '*ttl' | xargs cat) > ./${dir}.ttl
+  cat <(ttl_prefixes) <(find ${dir} -name '*ttl' | xargs cat) > ./${dir}.ttl
 done
