@@ -1,13 +1,20 @@
 #!/bin/bash
-set -eux
+# set -eux
 
-# The path to the directory to where the DRA storage attached
+# Path to the directory DRA storage mounted
 FASTQ_DIR="/usr/local/resources/dra/fastq"
 
-# The path to the directories
-BASE_DIR="/home/inutano/repos/ld-sra"
-RESULT_DIR="${BASE_DIR}/data"
-WORK_DIR="${RESULT_DIR}/$(date "+%Y%m%d")"
+# Path to job script
+JOB_SCRIPT_PATH="$(cd $(dirname $0) && pwd -P)/exp.job.sh"
+
+# Path to working directories
+if [[ -z ${1} ]]; then
+  WORKDIR="$(cd $(dirname $0) && pwd -P)/../data/$(date "+%Y%m%d")"
+else
+  mkdir -p "${1}"
+  WORKDIR="$(cd ${1} && pwd -P)"
+fi
+
 JOBCONF_DIR="${WORK_DIR}/jobconf"
 TTL_DIR="${WORK_DIR}/ttl"
 mkdir -p "${JOBCONF_DIR}" "${TTL_DIR}"

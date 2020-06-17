@@ -1,3 +1,5 @@
 source 'https://rubygems.org'
 gem 'thor'
 gem 'nokogiri'
+gem 'json-ld'
+gem 'rdf-turtle'
