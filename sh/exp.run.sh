@@ -46,11 +46,17 @@ find ${JOBCONF_DIR} -name "exp.*" | sort | while read jobconf; do
 done
 
 # Wait until the all jobs complete
-while [[ ! -z $(qstat | grep "exp.") ]]; do
-  sleep 10
+while :; do
+  sleep 30
+  running_jobs=$(qstat | grep "exp.")
+  if [[ -z ${running_jobs} ]]; then
+    printf "All jobs finished.\n"
+    break
+  fi
 done
 
 # Assemble the ttl files by the accession number group
-cd "${TTL_DIR}" && ls -d *RA* | while read dir; do
-  cat <(ttl_prefixes) <(find ${dir} -name '*ttl' | xargs cat) > ./${dir}.ttl
+find "${TTL_DIR}" -name '*RA*' -type d | while read dir; do
+  cat <(ttl_prefixes) <(find ${dir} -name '*ttl' | xargs cat) > "${TTL_DIR}/$(basename ${dir}).ttl"
+  rm -fr ${dir}
 done
