@@ -31,9 +31,8 @@ EOS
 
 # Create array job configuration
 if [[ -z $(find ${JOBCONF_DIR} -name 'exp.*') ]]; then
-  cd ${JOBCONF_DIR} && \
-    find ${FASTQ_DIR} -name '*.experiment.xml' |\
-    split -l 5000 -d - "exp."
+  cd ${JOBCONF_DIR}
+  find ${FASTQ_DIR} -name '*.experiment.xml' | split -l 5000 -d - "exp."
 fi
 
 # Load UGE settings
@@ -43,7 +42,7 @@ source "/home/geadmin/UGED/uged/common/settings.sh"
 find ${JOBCONF_DIR} -name "exp.*" | sort | while read jobconf; do
   jobname=$(basename ${jobconf})
   qsub -N "${jobname}" -o /dev/null -pe def_slot 1 -l s_vmem=4G -l mem_req=4G -t 1-5000:1 \
-    ${BASE_DIR}/sh/exp.job.sh ${jobconf} ${TTL_DIR}
+    ${JOB_SCRIPT_PATH} ${jobconf} ${TTL_DIR}
 done
 
 # Wait until the all jobs complete
