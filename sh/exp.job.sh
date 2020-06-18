@@ -12,7 +12,9 @@ EXP_XML_PATH=$(awk -v id=${SGE_TASK_ID} 'NR == id { print $0 }' ${1})
 ACC=$(basename ${EXP_XML_PATH} .experiment.xml)
 
 # Path to directories
-OUTDIR=${2}
+OUTDIR="${2}/${ACC:0:6}/${ACC}"
+mkdir -p "${OUTDIR}"
+
 TMPDIR="/data1/tmp/biosample-lod/experiment/ttl"
 tmp_ttl_path="${TMPDIR}/${ACC:0:6}/${ACC}/${ACC}.experiment.ttl"
 
