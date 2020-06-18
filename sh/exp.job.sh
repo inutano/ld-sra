@@ -29,7 +29,7 @@ docker run --security-opt seccomp=unconfined --rm \
 #
 # Validate ttl
 #
-validation_output="${ttl_tmp_path}.validation"
+validation_output="${tmp_ttl_path}.validation"
 valid_value='Validator finished with 0 warnings and 0 errors.'
 
 docker run --security-opt seccomp=unconfined --rm \
