@@ -56,7 +56,7 @@ while :; do
 done
 
 # Assemble the ttl files by the accession number group
-find "${TTL_DIR}" -name '*RA*' -type d | while read dir; do
+find "${TTL_DIR}" -maxdepth 1 -name '*RA*' -type d | while read dir; do
   cat <(ttl_prefixes) <(find ${dir} -name '*ttl' | xargs cat) > "${TTL_DIR}/$(basename ${dir}).ttl"
   rm -fr ${dir}
 done
