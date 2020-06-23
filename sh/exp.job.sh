@@ -26,7 +26,7 @@ docker run --security-opt seccomp=unconfined --rm \
   "quay.io/inutano/ld-sra:v1.0" \
   xml2ttl \
   experiment \
-  $(basename ${EXP_XML_PATH}) | grep -v "^@prefix" > "${tmp_ttl_path}"
+  $(basename ${EXP_XML_PATH}) > "${tmp_ttl_path}"
 
 #
 # Validate ttl
@@ -43,8 +43,7 @@ docker run --security-opt seccomp=unconfined --rm \
 
 if [[ $(cat "${validation_output}") == "${valid_value}" ]]; then
   rm -f "${validation_output}"
+  cat ${tmp_ttl_path} |  grep -v "^@prefix" > ${OUTDIR}
 else
   mv "${validation_output}" ${OUTDIR}
 fi
-
-mv ${tmp_ttl_path} ${OUTDIR}
