@@ -43,7 +43,7 @@ docker run --security-opt seccomp=unconfined --rm \
 
 if [[ $(cat "${validation_output}") == "${valid_value}" ]]; then
   rm -f "${validation_output}"
-  cat ${tmp_ttl_path} |  grep -v "^@prefix" > ${OUTDIR}
+  cat ${tmp_ttl_path} | grep -v "^@prefix" > ${OUTDIR}/$(basename ${tmp_ttl_path})
 else
   mv "${validation_output}" ${OUTDIR}
 fi
