@@ -16,10 +16,9 @@ else
   WORKDIR="$(cd ${1} && pwd -P)"
 fi
 
-JOBCONF_DIR="${WORKDIR}/jobconf"
-TTL_DIR="${WORKDIR}/ttl"
-UGE_LOG_DIR="${WORKDIR}/log"
-mkdir -p "${JOBCONF_DIR}" "${TTL_DIR}" "${UGE_LOG_DIR}"
+JOBCONF_DIR="${WORKDIR}/jobconf"; mkdir -p "${JOBCONF_DIR}"
+TTL_DIR="${WORKDIR}/ttl";         mkdir -p "${TTL_DIR}"
+# UGE_LOG_DIR="${WORKDIR}/log";     mkdir -p "${UGE_LOG_DIR}" # For debug
 
 ttl_prefixes() {
   cat <<EOS
@@ -44,7 +43,7 @@ source "/home/geadmin/UGED/uged/common/settings.sh"
 find ${JOBCONF_DIR} -name "exp.*" | sort | while read jobconf; do
   qsub -N "$(basename ${jobconf})" \
     -j y \
-    -o "${UGE_LOG_DIR}" \
+    -o /dev/null \
     -pe def_slot 1 -l s_vmem=4G -l mem_req=4G \
     -t 1-$(wc -l "${jobconf}" | awk '$0=$1'):1 \
     ${JOB_SCRIPT_PATH} ${jobconf} ${TTL_DIR}
