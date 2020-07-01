@@ -23,7 +23,7 @@ mkdir -p $(dirname ${tmp_ttl_path})
 docker run --security-opt seccomp=unconfined --rm \
   -v $(dirname ${EXP_XML_PATH}):/work \
   -w /work \
-  "quay.io/inutano/ld-sra:v1.0" \
+  "quay.io/inutano/ld-sra:v1.4" \
   xml2ttl \
   experiment \
   $(basename ${EXP_XML_PATH}) > "${tmp_ttl_path}"
