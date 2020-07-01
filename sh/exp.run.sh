@@ -3,6 +3,7 @@
 
 # Path to the directory DRA storage mounted
 [[ -z ${FASTQ_DIR} ]] && FASTQ_DIR="/usr/local/resources/dra/fastq"
+printf "Use ${FASTQ_DIR} for XML source..\n"
 
 # Path to job script
 JOB_SCRIPT_PATH="$(cd $(dirname $0) && pwd -P)/exp.job.sh"
