@@ -1,4 +1,5 @@
 require 'nokogiri'
+require "cgi/escape"
 
 class SRAExperimentXML < Nokogiri::XML::SAX::Document
   def initialize
@@ -51,7 +52,7 @@ class SRAExperimentXML < Nokogiri::XML::SAX::Document
   end
 
   def characters(string)
-    @inner_text = string.gsub(/\s+$/,"").chomp
+    @inner_text = escape_chars(string)
   end
 
   def end_element(name)
@@ -80,6 +81,16 @@ class SRAExperimentXML < Nokogiri::XML::SAX::Document
   #
   # functions
   #
+
+  def escape_chars(char)
+    CGI.unescapeHTML(char)
+                    .gsub("\n",'')
+                    .gsub(/^\s+$/,'')
+                    .gsub('\\','\\\\\\')
+                    .gsub('"','\"')
+                    .gsub(';','\;')
+                    .gsub('+','\\\+')
+  end
 
   def write_prefixes
     puts "@prefix : <http://bio.cow/ontology/sra-experiement/> ."
