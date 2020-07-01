@@ -1,6 +1,6 @@
 #!/bin/sh
 #$ -S /bin/sh -j y
-set -eux
+# set -x
 module load docker
 
 # Load rbenv
