@@ -2,7 +2,7 @@
 # set -eux
 
 # Path to the directory DRA storage mounted
-FASTQ_DIR="/usr/local/resources/dra/fastq"
+[[ -z ${FASTQ_DIR} ]] && FASTQ_DIR="/usr/local/resources/dra/fastq"
 
 # Path to job script
 JOB_SCRIPT_PATH="$(cd $(dirname $0) && pwd -P)/exp.job.sh"
