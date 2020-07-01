@@ -34,7 +34,7 @@ EOS
 # Create array job configuration
 if [[ -z $(find ${JOBCONF_DIR} -name 'exp.*') ]]; then
   cd ${JOBCONF_DIR}
-  find ${FASTQ_DIR} -name '*.experiment.xml' | split -l 5000 -d - "exp."
+  find ${FASTQ_DIR} -type f -name '*.experiment.xml' | split -l 5000 -d - "exp."
 fi
 
 # Load UGE settings
