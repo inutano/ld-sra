@@ -42,8 +42,11 @@ source "/home/geadmin/UGED/uged/common/settings.sh"
 
 # Execute array job
 find ${JOBCONF_DIR} -name "exp.*" | sort | while read jobconf; do
-  jobname=$(basename ${jobconf})
-  qsub -N "${jobname}" -j y -o "${UGE_LOG_DIR}" -pe def_slot 1 -l s_vmem=4G -l mem_req=4G -t 1-5000:1 \
+  qsub -N "$(basename ${jobconf})" \
+    -j y \
+    -o "${UGE_LOG_DIR}" \
+    -pe def_slot 1 -l s_vmem=4G -l mem_req=4G \
+    -t 1-$(wc -l "${jobconf}" | awk '$0=$1'):1 \
     ${JOB_SCRIPT_PATH} ${jobconf} ${TTL_DIR}
 done
 
