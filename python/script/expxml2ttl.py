@@ -40,9 +40,7 @@ def print_prefixes():
 
 
 def parse_xml(rootnode):
-    lib_elems = ["LIBRARY_NAME",
-                 "LIBRARY_CONSTRUCTION_PROTOCOL",
-                 "LIBRARY_STRATEGY",
+    lib_elems = ["LIBRARY_STRATEGY",
                  "LIBRARY_SELECTION",
                  "LIBRARY_SOURCE"]
 
@@ -92,6 +90,9 @@ def parse_xml(rootnode):
                                     exp["design"]["library_layout"]["type"] = re.sub("\s", "_", ldesc_elem[0].tag)
                                     exp["design"]["library_layout"]["nominal_length"] = ldesc_elem[0].attrib.get("NOMINAL_LENGTH", "")
                                     exp["design"]["library_layout"]["nominal_sdev"] = ldesc_elem[0].attrib.get("NOMINAL_SDEV", "")
+                                else:
+                                    exp["design"][ldesc_elem.tag.lower()] = ldesc_elem.text
+
 
                 elif elem.tag == "PLATFORM":
                     exp["platform"] = re.sub("\s", "_", elem[0].tag)
