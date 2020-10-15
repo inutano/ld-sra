@@ -15,12 +15,18 @@ module load docker
 JOBCONF_PATH="${1}"
 OUTDIR="${2}"
 OUT_TTL_PATH="${OUTDIR}/$(basename ${1}).ttl"
-SCRIPT_PATH="$(cd $(dirname ${0}) && pwd -P)/../python/script/expxml2ttl.py"
+SCRIPT_PATH="/tmp/ld-sra/python/script/expxml2ttl.py"
 DOCKER_IMAGE_TAG="python:3.9.0-buster"
 
 #
 # Functions
 #
+download_script() {
+  if [[ ! -e "${SCRIPT_PATH}" ]]; then
+    git clone --depth=1 "https://github.com/inutano/ld-sra" "/tmp"
+  fi
+}
+
 xml2ttl() {
   docker run --security-opt seccomp=unconfined --rm -i \
     -v ${SCRIPT_PATH}:/$(basename ${SCRIPT_PATH}) \
