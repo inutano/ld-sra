@@ -32,7 +32,7 @@ def output_turtle(exp):
 
 
 def print_prefixes():
-    print("@prefix : <http://bio.cow/ontology/sra-experiement/> .")
+    print("@prefix : <http://ddbj.nig.ac.jp/ontologies/dra/> .")
     print("@prefix id: <http://identifiers.org/insdc.sra/> .")
     print("@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .")
     print("@prefix dct: <http://purl.obolibrary.org/obo/> .")
