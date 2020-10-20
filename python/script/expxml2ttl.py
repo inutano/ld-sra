@@ -2,13 +2,14 @@ import xml.etree.ElementTree as ET
 import sys
 import re
 import argparse
+import urllib.parse
 
 
 def output_turtle(exp):
     print("id:" + exp["id"] + " a :Experiment ;\n" +
           "  rdfs:label \"" + exp["id"] + ": " + exp["title"] + "\" ;\n" +
           "  dct:identifier \"" + exp["id"] + "\" ;\n" +
-          "  :designDesctiption \"" + exp["design_description"] + "\" ;\n" +
+          "  :designDescription \"" + exp["design_description"] + "\" ;\n" +
           "  dct:description \"" + exp["design_description"] + "\" ;\n" +
           "  :title \"" + exp["title"] + "\" ;\n" +
           "  :platform [\n" +
@@ -37,6 +38,14 @@ def print_prefixes():
     print("@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .")
     print("@prefix dct: <http://purl.obolibrary.org/obo/> .")
     print("")
+
+
+def to_uri_string(s):
+    return urllib.parse.quote_plus(re.sub("\s", "_", s))
+
+
+def escape_string(s):
+    return repr(s)[1:-1].replace('"', '\\"').replace("\\x", "\\u00")
 
 
 def parse_xml(rootnode):
@@ -72,33 +81,35 @@ def parse_xml(rootnode):
                     if elem.text is None:
                         exp["title"] = ""
                     else:
-                        exp["title"] = elem.text
+                        exp["title"] = escape_string(elem.text)
                 elif elem.tag == "DESIGN":
                     for dsn_elem in elem:
                         if dsn_elem.tag == "DESIGN_DESCRIPTION":
                             exp["design_description"] = dsn_elem.text
                             if exp["design_description"] is None:
                                 exp["design_description"] = ""
+                            else:
+                                exp["design_description"] = escape_string(exp["design_description"])
                         elif dsn_elem.tag == "LIBRARY_DESCRIPTOR":
                             for ldesc_elem in dsn_elem:
                                 if ldesc_elem.tag in lib_elems:
                                     if ldesc_elem.text is None:
                                         exp["design"][ldesc_elem.tag.lower()] = ""
                                     else:
-                                        exp["design"][ldesc_elem.tag.lower()] = re.sub("\s", "_", ldesc_elem.text)
+                                        exp["design"][ldesc_elem.tag.lower()] = to_uri_string(ldesc_elem.text)
                                 elif ldesc_elem.tag == "LIBRARY_LAYOUT":
-                                    exp["design"]["library_layout"]["type"] = re.sub("\s", "_", ldesc_elem[0].tag)
+                                    exp["design"]["library_layout"]["type"] = to_uri_string(ldesc_elem[0].tag)
                                     exp["design"]["library_layout"]["nominal_length"] = ldesc_elem[0].attrib.get("NOMINAL_LENGTH", "")
                                     exp["design"]["library_layout"]["nominal_sdev"] = ldesc_elem[0].attrib.get("NOMINAL_SDEV", "")
                                 else:
-                                    exp["design"][ldesc_elem.tag.lower()] = ldesc_elem.text
-
+                                    if ldesc_elem.text is not None:
+                                        exp["design"][ldesc_elem.tag.lower()] = escape_string(ldesc_elem.text)
 
                 elif elem.tag == "PLATFORM":
-                    exp["platform"] = re.sub("\s", "_", elem[0].tag)
+                    exp["platform"] = to_uri_string(elem[0].tag)
                     for plf_elem in elem[0]:
                         if plf_elem.tag == "INSTRUMENT_MODEL":
-                            exp["instrument_model"] = re.sub("\s", "_", plf_elem.text)
+                            exp["instrument_model"] = to_uri_string(plf_elem.text)
             output_turtle(exp)
 
 
