@@ -36,7 +36,8 @@ def print_prefixes():
     print("@prefix : <http://ddbj.nig.ac.jp/ontologies/dra/> .")
     print("@prefix id: <http://identifiers.org/insdc.sra/> .")
     print("@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .")
-    print("@prefix dct: <http://purl.obolibrary.org/obo/> .")
+    print("@prefix dct: <http://purl.org/dc/terms/> .")
+
     print("")
 
 
