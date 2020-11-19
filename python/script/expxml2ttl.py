@@ -42,7 +42,7 @@ def print_prefixes():
 
 
 def to_uri_string(s):
-    return urllib.parse.quote_plus(re.sub("\s", "_", s))
+    return urllib.parse.quote_plus(re.sub("\s", "_", s.strip()))
 
 
 def escape_string(s):
