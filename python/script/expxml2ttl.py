@@ -54,6 +54,16 @@ def parse_xml(rootnode):
                  "LIBRARY_SELECTION",
                  "LIBRARY_SOURCE"]
 
+    term_dic = {
+        ("LIBRARY_STRATEGY", "VALIDATION"): "Other_strategy",
+        ("LIBRARY_STRATEGY", "OTHER"): "Other_strategy",
+        ("LIBRARY_STRATEGY", "other"): "Other_strategy",
+        ("LIBRARY_SELECTION", "unspecified"): "unspecified_selection_method",
+        ("LIBRARY_SELECTION", "other"): "other_selection_method",
+        ("LIBRARY_SELECTION", "OTHER"): "other_selection_method",
+        ("LIBRARY_SOURCE", "OTHER"): "OTHER_SOURCE"
+    }
+
     for node in rootnode:
         if node.tag == "EXPERIMENT":
             exp = {
@@ -97,7 +107,8 @@ def parse_xml(rootnode):
                                     if ldesc_elem.text is None:
                                         exp["design"][ldesc_elem.tag.lower()] = ""
                                     else:
-                                        exp["design"][ldesc_elem.tag.lower()] = to_uri_string(ldesc_elem.text)
+                                        term = to_uri_string(ldesc_elem.text)
+                                        exp["design"][ldesc_elem.tag.lower()] = term_dic.get((ldesc_elem.tag, term), term)
                                 elif ldesc_elem.tag == "LIBRARY_LAYOUT":
                                     exp["design"]["library_layout"]["type"] = to_uri_string(ldesc_elem[0].tag)
                                     exp["design"]["library_layout"]["nominal_length"] = ldesc_elem[0].attrib.get("NOMINAL_LENGTH", "")
@@ -111,6 +122,8 @@ def parse_xml(rootnode):
                     for plf_elem in elem[0]:
                         if plf_elem.tag == "INSTRUMENT_MODEL":
                             exp["instrument_model"] = to_uri_string(plf_elem.text)
+                            if exp["instrument_model"] == "unspecified":
+                                exp["instrument_model"] = "Unspecified_Instrument_Model"
             output_turtle(exp)
 
 
