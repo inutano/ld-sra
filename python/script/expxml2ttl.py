@@ -55,7 +55,6 @@ def parse_xml(rootnode):
                  "LIBRARY_SOURCE"]
 
     term_dic = {
-        ("LIBRARY_STRATEGY", "VALIDATION"): "Other_strategy",
         ("LIBRARY_STRATEGY", "OTHER"): "Other_strategy",
         ("LIBRARY_STRATEGY", "other"): "Other_strategy",
         ("LIBRARY_SELECTION", "unspecified"): "unspecified_selection_method",
