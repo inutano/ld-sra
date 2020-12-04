@@ -57,9 +57,11 @@ def parse_xml(rootnode):
     term_dic = {
         ("LIBRARY_STRATEGY", "OTHER"): "Other_strategy",
         ("LIBRARY_STRATEGY", "other"): "Other_strategy",
+        ("LIBRARY_STRATEGY", "ChIP"): "ChIP-Seq",
         ("LIBRARY_SELECTION", "unspecified"): "unspecified_selection_method",
         ("LIBRARY_SELECTION", "other"): "other_selection_method",
         ("LIBRARY_SELECTION", "OTHER"): "other_selection_method",
+        ("LIBRARY_SELECTION", "ChIP-Seq"): "ChIP",
         ("LIBRARY_SOURCE", "OTHER"): "OTHER_SOURCE"
     }
 
